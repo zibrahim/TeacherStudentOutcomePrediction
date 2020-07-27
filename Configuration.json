@@ -1,0 +1,106 @@
+{
+	"paths": {
+		"path":  "/Users/babylon/Documents/Covid/Data/",
+		"data_path" : "/Users/babylon/Documents/Data/KCHData/",
+		"stats_path":  "/Users/babylon/Documents/Data/KCHData/Stats/",
+		"clustered_timeseries_path": "/Users/babylon/Documents/Data/KCHData/ClusteredTimeSeries/",
+		"lstm_prediction_path": "/Users/babylon/Documents/Covid/Figures/Prediction/LSTM",
+		"lstm_stats_path":  "/Users/babylon/Documents/Data/KCHData/Stats/LSTM",
+		"lstm_model_path":  "/Users/babylon/Documents/Data/KCHData/Models/LSTM"
+
+	},
+	"data": {
+		"filename": "/Users/babylon/Documents/Data/KCHData/ClusteredTimeSeries/TimeSeriesAggregatedClusteredDeltaTwoDays.csv",
+		"grouping": "PatientID",
+		"ordering": "Hour",
+
+		"static_columns": [
+             "Age",
+             "SxToAdmit",
+			 "NumComorbidities",
+			 "cluster_assignment"
+
+		],
+
+		"dynamic_columns": [
+			"Albumin",
+			"Creatinine",
+			"C-Reactive-Protein",
+			"DiasBP",
+			"FiO2",
+			"Hb",
+			"Lymphocytes",
+			"Neutrophils",
+			"NEWS2",
+			"PLT",
+			"PO2/FIO2",
+			"SysBP",
+			"Urea",
+			"WBC"
+		],
+		"baseline_columns": [
+					"AlbuminBaseline","CreatinineBaseline","CReactiveProteinBaseline",
+					"DiasBPBaseline", "FiO2Baseline", "HbBaseline",
+					"LymphocytesBaseline", "NeutrophilsBaseline", "NEWSBaseline",
+					"PLTBaseline", "PO2.FIO2Baseline", "SysBPBaseline",
+					 "UreaBaseline", "WBCBaseline"
+		],
+		"classification_outcome": [
+			"Mortality7Days",
+			"Mortality14Days",
+			"Mortality30Days",
+			"ITUAdmission7Days",
+			"ITUAdmission14Days",
+			"ITUAdmission30Days"
+
+		],
+		"regression_outcome": ["PO2/FIO2"],
+
+		"sequence_length": 14,
+		"train_test_split": 0.85,
+		"normalise": true
+	},
+	"training": {
+		"epochs": 5,
+		"batch_size": 24
+	},
+	"model": {
+		"name": "lstm-binary-classifier",
+		"xgboost_name": "xgboost-binary-classifier",
+		"loss": "sparse_categorical_crossentropy",
+		"optimizer": "adam",
+		"metrics": ["accuracy"],
+		"save_dir": "/Users/babylon/Documents/Data/KCHData/Models/LSTM",
+		"layers": [
+			{
+				"type": "lstm",
+				"neurons": 100,
+				"input_timesteps": -1,
+				"input_dim": -1,
+				"return_seq": true
+			},
+			{
+				"type": "dropout",
+				"rate": 0.2
+			},
+			{
+				"type": "lstm",
+				"neurons": 100,
+				"return_seq": true
+			},
+			{
+				"type": "lstm",
+				"neurons": 100,
+				"return_seq": true
+			},
+			{
+				"type": "dropout",
+				"rate": 0.2
+			},
+			{
+				"type": "dense",
+				"activation": "sigmoid"
+			}
+		]
+	}
+}
