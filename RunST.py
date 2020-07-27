@@ -7,11 +7,13 @@ import numpy as np
 from Models.LSTM.TeacherModel import LSTMTeacherModel
 from Models.XGBoost.Model import XGBoostModel
 from Utils.Model import scale, stratified_group_k_fold, generate_trajectory_timeseries, impute
-from sklearn.metrics import roc_auc_score, f1_score, precision_score, recall_score
+
+import shap
+from sklearn import tree
 
 
 def main():
-
+    shap.initjs()
     ##1. read configuration file
     configs = json.load(open('Configuration.json', 'r'))
     if not os.path.exists(configs['model']['save_dir']): os.makedirs(configs['model']['save_dir'])
@@ -94,8 +96,9 @@ def main():
         Xgboost_X = pd.DataFrame(Xgboost_X)
 
         blah = X_student.loc[X_student['PatientID'].isin(this_y_ids)]
-        print(" X STUDENT SHAPE AFTER subsetting : ", blah.shape)
+        print("Outcomes/ClusteringTraining/X STUDENT SHAPE AFTER subsetting : ", blah.shape)
 
+        X_student.to_csv("XStudent"+outcome+".csv")
         Xgboost_X[static_features] = blah[static_features]
         print(' BLAH SHAPE: ', blah.shape)
         student_model.train(Xgboost_X, this_y_val, outcome, configs)

@@ -4,10 +4,15 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc, precision_score, recall_score, f1_score
 import xgboost as xgb
 
+import matplotlib.pyplot as plt
+
+
+
 from Utils.Model import get_distribution
 from sklearn.model_selection import KFold
 class XGBoostModel() :
     def __init__( self , name):
+
         self.model = xgb.XGBClassifier(scale_pos_weight=263/73,
                            learning_rate=0.007,
                            n_estimators=100,
@@ -34,7 +39,7 @@ class XGBoostModel() :
 
         outcome_df = pd.DataFrame()
 
-        kf = KFold(n_splits=10)
+        kf = KFold(n_splits=3)
 
 
         print(" X LENGTH: ", len(X), " Y LENGTH: ", len(y))
@@ -92,9 +97,11 @@ class XGBoostModel() :
             distrs.append(get_distribution(testing_y))
             index.append(f'testing set - fold')
 
+    #Shape plot
     # Finallise ROC curve
         plt.plot([0, 1], [0, 1], linestyle='--', lw=2, color='r',
              label='Chance', alpha=.8)
+
 
         mean_tpr = np.mean(tprs, axis=0)
         mean_tpr[-1] = 1.0
