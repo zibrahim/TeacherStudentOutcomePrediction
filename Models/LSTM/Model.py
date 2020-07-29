@@ -61,13 +61,14 @@ class LSTMModel() :
 
         self.model.add(Activation('softmax'))
         self.model.add(Dense(1))
-        self.model.compile(loss=configs['model']['loss'], optimizer=configs['model']['optimizer'])
+        self.model.compile(loss=configs['model']['loss'],
+                           optimizer=configs['model']['optimizer'])
 
         print('[Model] Model Compiled')
         print(self.model.summary())
         timer.stop()
 
-    def train ( self, x, y, epochs, batch_size, save_dir ) :
+    def train ( self, x, y, x_validate, y_validate, epochs, batch_size, save_dir ) :
         timer = Timer()
         timer.start()
 
@@ -81,7 +82,8 @@ class LSTMModel() :
             y,
             epochs=epochs,
             batch_size=batch_size,
-            callbacks=callbacks
+            callbacks=callbacks,
+            validation_data=(x_validate, y_validate)
         )
         self.model.save(save_fname)
 

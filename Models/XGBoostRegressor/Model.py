@@ -26,7 +26,7 @@ class XGBoostRegressionModel() :
 
         outcome_df = pd.DataFrame()
 
-        kf = KFold(n_splits=10)
+        kf = KFold(n_splits=5)
 
         for train_index, test_index in kf.split(X) :
             training_X, testing_X = X.iloc[train_index], X.iloc[test_index]

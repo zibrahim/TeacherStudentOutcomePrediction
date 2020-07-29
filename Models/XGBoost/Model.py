@@ -53,18 +53,18 @@ class XGBoostModel() :
 
             y_pred_binary= (y_pred_rt > 0.5).astype('int32')
 
-            F1Macro = f1_score(testing_y, y_pred_binary, average='macro')
+            F1Macro = f1_score(testing_y, y_pred_binary, average='macro',zero_division=1)
 
-            F1Micro = f1_score(testing_y, y_pred_binary, average='micro')
-            F1Weighted = f1_score(testing_y, y_pred_binary, average='weighted')
-            PrecisionMacro = precision_score(testing_y, y_pred_binary, average='macro')
+            F1Micro = f1_score(testing_y, y_pred_binary, average='micro',zero_division=1)
+            F1Weighted = f1_score(testing_y, y_pred_binary, average='weighted',zero_division=1)
 
-            PrecisionMicro = precision_score(testing_y, y_pred_binary, average='micro')
-            PrecisionWeighted = precision_score(testing_y, y_pred_binary, average='weighted')
-            RecallMacro = recall_score(testing_y, y_pred_binary, average='macro')
+            PrecisionMacro = precision_score(testing_y, y_pred_binary, average='macro',zero_division=1)
+            PrecisionMicro = precision_score(testing_y, y_pred_binary, average='micro', zero_division=1)
+            PrecisionWeighted = precision_score(testing_y, y_pred_binary, average='weighted', zero_division=1)
 
-            RecallMicro = recall_score(testing_y, y_pred_binary, average='micro')
-            RecallWeighted = recall_score(testing_y, y_pred_binary, average='weighted')
+            RecallMacro = recall_score(testing_y, y_pred_binary, average='macro',zero_division=1)
+            RecallMicro = recall_score(testing_y, y_pred_binary, average='micro',zero_division=1)
+            RecallWeighted = recall_score(testing_y, y_pred_binary, average='weighted',zero_division=1)
 
 
             performance_row = {

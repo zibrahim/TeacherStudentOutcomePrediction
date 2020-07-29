@@ -18,8 +18,7 @@
              "Age",
              "SxToAdmit",
 			 "NumComorbidities",
-			 "cluster_assignment"
-
+			"cluster_assignment"
 		],
 
 		"dynamic_columns": [
@@ -46,9 +45,13 @@
 					 "UreaBaseline", "WBCBaseline"
 		],
 		"classification_outcome": [
+			"Mortality3Days",
+			"Mortality5Days",
 			"Mortality7Days",
 			"Mortality14Days",
 			"Mortality30Days",
+			"ITUAdmission3Days",
+			"ITUAdmission5Days",
 			"ITUAdmission7Days",
 			"ITUAdmission14Days",
 			"ITUAdmission30Days"
@@ -61,13 +64,13 @@
 		"normalise": true
 	},
 	"training": {
-		"epochs": 2,
-		"batch_size": 24
+		"epochs": 4,
+		"batch_size": 18
 	},
 	"model": {
 		"name": "lstm-binary-classifier",
 		"xgboost_name": "xgboost-binary-classifier",
-		"loss": "sparse_categorical_crossentropy",
+		"loss": "binary_crossentropy",
 		"optimizer": "adam",
 		"metrics": ["accuracy"],
 		"save_dir": "/Users/babylon/Documents/Data/KCHData/Models/LSTM",
